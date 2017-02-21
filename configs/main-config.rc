@@ -157,8 +157,10 @@ keystonehost="10.2.2.5"
 # Normally, this is not necessary unless your mysql service access policies are very
 # strict.
 extrakeystonehosts=""
+#########################################
 # Please regenerate the SERVICE_TOKEN value by using the command: "openssl rand -hex 10"
-SERVICE_TOKEN="044cb8c9e4a00a418827"
+SERVICE_TOKEN="568d744b65a4ed602e67"
+####################################
 #
 # PLEASE PLEASE PLEASE Leave Keystone Options following as they are. If you change 
 # the default protected config options, your OpenStack installation will be unusable 
@@ -616,7 +618,7 @@ mondbpass="C3iL0m3T3r-Op3nStaCk"
 ###############################
 # Metering secret. Please regen this by using the following command:
 # openssl rand -hex 10
-metering_secret="fe01a6ed3e04c4be1cd8"
+metering_secret="a3dedb7a26fc824994da"
 ##############################################
 
 # If you want ceilometer alarms, leave this on "yes". Case else, use "no". Please note that
@@ -661,7 +663,7 @@ heat_stack_owner="heat_stack_owner"
 # Regen the following variable by using: "openssl rand -hex 32"
 # NOTE: For heat, the encription key MUST BE 32 long. Use -hex 32 ALWAYS !!
 # in order to regenerate the key.
-heatencriptionkey="7a6502a023ff8a3a16fbc2e438bc7ddfd524707cc892c30769f7411b68de423b"
+heatencriptionkey="1ed55f3b771815314ce0fb18ee974d40e765d7bb315ce21e20e9c7d3d836a7f6"
 #########################################################################
 
 # Only if you are using MySQL as DB backend. If for any chance, you have multiple
