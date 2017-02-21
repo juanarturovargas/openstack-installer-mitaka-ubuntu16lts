@@ -350,8 +350,8 @@ nfs_mount_options="rw,hard,intr,timeo=90,bg,vers=3,proto=tcp,rsize=32768,wsize=3
 # node (full controller), or a compute node, or a single neutron node, you must
 # use "yes" here.
 neutroninstall="yes"
-#
-#
+
+#############################################
 # If the node you are installing is a neutron node or a controller with network
 # node, the following variable must be set to "no". IF you are installing a single
 # compute node, the variable must be set to "yes".
@@ -361,7 +361,8 @@ neutroninstall="yes"
 # Controller, All-in-One, or Network Node: "no"
 # Nova Compute Node: "yes"
 neutron_in_compute_node="no"
-#
+#############################################
+
 # The IP or FQDN of your neutron network node or controller
 neutronhost="10.2.2.5"
 #
@@ -489,7 +490,7 @@ nova_in_compute_node="no"
 #
 # The "yes" option just instruct the installer to "not install" the compute service dependencies.
 ################################ Install only controller ##############
-nova_without_compute="yes"
+nova_without_compute="no"
 #######################################################################
 # This is the IP of your nova control node, controller or ALL-IN-ONE server.
 novahost="10.2.2.5"
@@ -577,13 +578,13 @@ ceilometerinstall="yes"
 # In other words:
 # Controller, All-In-One or Ceilometer Node without compute: "no"
 # Compute node: "yes"
-ceilometer_in_compute_node="no"
+ceilometer_in_compute_node="yes"
 ######################################
 
 # Also, if you want to install a pure controller (no compute node) or a pure ceilometer,
 # node, user "yes". In normal conditions, leave it at "no".
 ##########################################
-ceilometer_without_compute="yes"
+ceilometer_without_compute="no"
 ##########################################
 
 # This is the IP of the ceilometer node host or controller.
