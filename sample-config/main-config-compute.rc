@@ -367,7 +367,7 @@ neutron_in_compute_node="yes"
 #############################################
 
 # The IP or FQDN of your neutron network node or controller
-neutronhost="172.19.6.2"
+neutronhost="172.19.6.1"
 
 #############################################
 # If you are installing a compute node, the following variable must be set to the
