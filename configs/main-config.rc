@@ -2,12 +2,11 @@
 #
 # Unattended installer for OpenStack.
 
-#
-#
+##########################################################################
 # Main Configuration
 # Version: 1.0.8.ub1604lts "Lynx Pardinus"
 # November 19, 2016
-#
+##########################################################################
 
 #
 # DATABASE SECTION
@@ -26,8 +25,8 @@ dbflavor="mysql"
 # database backend using the supplied user/password access to the server.
 # dbinstall="yes": The installer will install the database software. If you use this
 # option in "yes", also you MUST use "dbcreate=yes" and "dbpopulate=yes".
-dbcreate="yes"
-dbinstall="yes"
+dbcreate="no"
+dbinstall="no"
 #
 # Access information for MySQL
 mysqldbadm="root"
@@ -45,12 +44,12 @@ psqldbport="5432"
 # you use an external database server or not, you shoud use "yes" here.
 # If this a reinstallation, use "no"
 #
-dbpopulate="yes"
+dbpopulate="no"
 # NOTA: If "dbpopulate" is "no", the "dbcreate/dbinstall" variables are overriden and
 # no action is taken for database installation, creation or population.
 #
 # Here you define the database backend server IP address. You can use an IP or a FQDN:
-dbbackendhost="172.19.6.1"
+dbbackendhost="172.19.6.2"
 #
 # DB Max connections. This parameter needs to be adjusted according to your available
 # cores in your controller
@@ -66,10 +65,10 @@ dbmaxcons="1000"
 # never in a compute node.
 # If this server is a pure controller or a controller-compute, the variable must be "yes",
 # else, put "no".
-messagebrokerinstall="yes"
+messagebrokerinstall="no"
 # The IP or FQDN of the message broker (always fill this, no matter if you are installing
 # a controller or a compute node).
-messagebrokerhost="172.19.6.1"
+messagebrokerhost="172.19.6.2"
 #
 # From MITAKA, we dropped QPID support. Our default is rabbitmq. Please DO NOT TRY to change
 # the following variable, or your installation WILL BREAK.
@@ -140,18 +139,19 @@ designatedbpoolmanagerdb="designatepoolmanagerdb"
 designatedbuser="designatedbuser"
 designatedbpass="Welcome$1"
 
-#
+
+####################################################################################################
 # OPENSTACK KEYSTONE
 #
 # In the following section we define keystone installation options
 # If this machine is the controller, keystoneinstall must be "yes". If
 # you are installing a compute node, you must use "no".
 #
-keystoneinstall="yes"
+keystoneinstall="no"
 #
 # Either controller or compute, put the IP or FQDN for the keystone host,
 # normally, the controller server.
-keystonehost="172.19.6.1"
+keystonehost="172.19.6.2"
 # Only if you are using MySQL as DB backend. If for any chance, you have multiple
 # keystone hosts, put here the IP address of the extra hosts, space separated.
 # Normally, this is not necessary unless your mysql service access policies are very
@@ -159,7 +159,7 @@ keystonehost="172.19.6.1"
 extrakeystonehosts=""
 #########################################
 # Please regenerate the SERVICE_TOKEN value by using the command: "openssl rand -hex 10"
-SERVICE_TOKEN="568d744b65a4ed602e67"
+SERVICE_TOKEN="f5b7001c872856adf731"
 ####################################
 #
 # PLEASE PLEASE PLEASE Leave Keystone Options following as they are. If you change 
@@ -210,10 +210,11 @@ domainextratenants="localhost"
 # The following eliminates the admin token auth from keystone as soon as all identities are
 # created... please leave it at "yes" in production environments
 lockadmintokenauth="yes"
-#
+#####################################################################################################3
 
 
-#
+
+#####################################################################################################
 # OPENSTACK SWIFT
 #
 # You can choose to install or not "swift" by using swiftinstall variable in "yes" or "no".
@@ -223,7 +224,7 @@ lockadmintokenauth="yes"
 # Change the IP, password and e-mail accordingly to your installation scenario.
 #
 swiftinstall="no"
-swifthost="172.19.6.1"
+swifthost="172.19.6.2"
 swiftuser="swift"
 swiftsvce="swift"
 swiftpass="Welcome$1"
@@ -255,20 +256,20 @@ cleanupdeviceatuninstall="yes"
 # If you want to use swift as a storage backend for Glance, use "yes" in the following
 # variable. Our default is "no".
 glance_use_swift="no"
-#
+#####################################################################################################
 
 
-#
+#####################################################################################################
 # OPENSTACK GLANCE
 #
 # If you are installing a controller, and want to use glance, you must use "yes" in
 # order to install glance. If it is a compute, use "no":
-glanceinstall="yes"
+glanceinstall="no"
 # The host IP is normally the one of the controller and you MUST specify it either if
 # you are installing the controller or a compute node. This is normally the controller
 # IP address or FQDN if you prefer to use DNS. Also, remember to change the password and
 # e-mail.
-glancehost="172.19.6.1"
+glancehost="172.19.6.2"
 glanceuser="glance"
 glancesvce="glance"
 glancepass="Welcome$1"
@@ -282,19 +283,21 @@ glancecirroscreate="yes"
 # Normally, this is not necessary unless your mysql service access policies are very
 # strict.
 extraglancehosts=""
+#####################################################################################################
 
 
-#
+
+#####################################################################################################
 # OPENSTACK CINDER
 #
 # If you are installing a controller, and want to use cinder, you must use "yes" in
 # order to install cinder. If it is a compute, use "no":
-cinderinstall="yes"
+cinderinstall="no"
 # The host IP is normally the one of the controller and you MUST specify it either if
 # you are installing the controller or a compute node. This is normally the controller
 # IP address or FQDN if you prefer to use DNS. Also, remember to change the password and
 # e-mail.
-cinderhost="172.19.6.1"
+cinderhost="172.19.6.2"
 cinderuser="cinder"
 cindersvce="cinder"
 cindersvcev2="cinderv2"
@@ -306,7 +309,7 @@ cinderemail="cinder@localhost"
 cinderconfiglvm="yes"
 # Our default is to use iscsi. Put here the iscsi server IP. It can be the one of the
 # controller, if you are using a LVM "cinder-volumes" inside the controller.
-cinder_iscsi_ip_address="172.19.6.1"
+cinder_iscsi_ip_address="172.19.6.2"
 cinderlvmname="cinder-volumes"
 # Only if you are using MySQL as DB backend. If for any chance, you have multiple
 # cinder hosts, put here the IP address of the extra hosts, space separated.
@@ -339,11 +342,11 @@ nfsresource="192.168.1.1:/data/openstack-nfs"
 # but again, change it and adapt it to your NFS environment
 #
 nfs_mount_options="rw,hard,intr,timeo=90,bg,vers=3,proto=tcp,rsize=32768,wsize=32768"
-#
+#####################################################################################################
 
 
 
-#
+#####################################################################################################
 # OPENSTACK NEUTRON
 #
 # You must install neutron. If you are installing a controller node with network
@@ -360,23 +363,27 @@ neutroninstall="yes"
 # In othe words:
 # Controller, All-in-One, or Network Node: "no"
 # Nova Compute Node: "yes"
-neutron_in_compute_node="no"
+neutron_in_compute_node="yes"
 #############################################
 
 # The IP or FQDN of your neutron network node or controller
 neutronhost="172.19.6.1"
-#
+
+#############################################
 # If you are installing a compute node, the following variable must be set to the
 # server IP address (the server you are just installing). If you are installing a
 # neutron network node or an ALL-IN-ONE server, use the same IP of the neutronhost
 # variable.
 neutron_computehost="172.19.6.1"
-#
+#############################################
+
 # Here, you should chang the password and e-mail
 neutronuser="neutron"
 neutronsvce="neutron"
 neutronpass="Welcome$1"
 neutronemail="neutron@localhost"
+
+########################################
 # This is the most important part of your network configuration. Here, you must
 # select your network mappings. Please, ensure you understand OpenStack
 # network philosophy before you configure this.
@@ -392,6 +399,8 @@ integration_bridge="br-int"
 # including br-int and all bridges defined in the "bridge_mappings" variable. Fail
 # to do this, and Neutron will be unable to function properlly.
 bridge_mappings="physical01:br-enp0s9"
+###########################################
+
 dhcp_domain="localdomain"
 metadata_shared_secret="Welcome$1"
 # VM's Base Mac. Normally you should not need to change this
@@ -430,7 +439,8 @@ dnsmasq_config_file="/etc/dnsmasq-neutron.conf"
 # are (no and 1 respectivelly).
 dhcp_agents_in_compute_node="no"
 dhcp_agents_per_network="1"
-#
+
+############################################
 # If you want our installer to automatically create the neutron FLAT networks, you can
 # use "yes" in flat_network_create and list the networks, space separated, in the create list
 # variable.
@@ -443,9 +453,9 @@ flat_network_create_list=""
 # Also, you need to set up your physical FLAT network names. Sample:
 # flat_networks="physical01,physical02"
 flat_networks="physical01"
-#
-#
-#
+############################################
+
+############################################
 # If you want our installer to automatically create the neutron VLAN networks, you can
 # use "yes" in vlan_network_create and list the networks, space separated, in the create list
 # variable.
@@ -473,7 +483,8 @@ neutronmetering="yes"
 # If you are installing a controller, nova control node, or nova compute, you must set
 # this to yes:
 novainstall="yes"
-#
+
+####################################
 # If the node you are installing is a full controller, ALL-IN-ONE, or a nova controll node,
 # the following variable must be set to "no". If you are installing a compute node, set the
 # variable to "yes".
@@ -481,25 +492,29 @@ novainstall="yes"
 # In other words:
 # Controller, nova control node or All-In-One: "no"
 # Nova Compute Node: "yes"
-nova_in_compute_node="no"
-#
+nova_in_compute_node="yes"
+#####################################
+
+################################
 # Also, if you plan to install a pure-controller (nova without compute service), or a pure
 # nova control node, you must set this variable to "yes". This will ensure that no Virtual Machines
 # will be deployed in the server. Of course, if you are installing an ALL-IN-ONE, you must leave
 # the "no" default.
 #
 # The "yes" option just instruct the installer to "not install" the compute service dependencies.
-################################ Install only controller ##############
 nova_without_compute="no"
-#######################################################################
+#################################
+
 # This is the IP of your nova control node, controller or ALL-IN-ONE server.
 novahost="172.19.6.1"
-#
+
+##################################
 # If you are installing NOVA in a compute node, the following IP must be ser to the server IP. If you
 # are installing a nova control node, all-in-one or controller, the IP must be set as the same in
 # "novahost" variable.
 nova_computehost="172.19.6.1"
-#
+###################################
+
 # Here you normally only need to change the password and e-mail:
 novauser="nova"
 novasvce="nova"
@@ -559,7 +574,7 @@ libvirt_cpu_mode="host-passthrough"
 # where the cpu and motherboard supports intel/amd hardware virtualization. If you are using a vm inside
 # vmware, kvm-qemu, openstack or another VPS that is already virtual, you "should" change the following
 # variable to "yes". Otherwise, leave it to "no".
-forceqemu="no"
+forceqemu="yes"
 
 
 
@@ -619,7 +634,7 @@ mondbpass="C3iL0m3T3r-Op3nStaCk"
 ###############################
 # Metering secret. Please regen this by using the following command:
 # openssl rand -hex 10
-metering_secret="a3dedb7a26fc824994da"
+metering_secret="8583da0191dac2d25621"
 ##############################################
 
 # If you want ceilometer alarms, leave this on "yes". Case else, use "no". Please note that
@@ -645,9 +660,9 @@ mongodbttl="604800"
 #
 # Install heat on the controller only. Our default is "no", but set the following variable to "yes"
 # if you don't want to install heat. Again: IN THE CONTROLLER !!!
-heatinstall="yes"
+heatinstall="no"
 # The heat host IP: Normally, the controller IP
-heathost="172.19.6.1"
+heathost="172.19.6.2"
 # Change the password and email
 heatuser="heat"
 heatsvce="heat"
@@ -664,7 +679,7 @@ heat_stack_owner="heat_stack_owner"
 # Regen the following variable by using: "openssl rand -hex 32"
 # NOTE: For heat, the encription key MUST BE 32 long. Use -hex 32 ALWAYS !!
 # in order to regenerate the key.
-heatencriptionkey="1ed55f3b771815314ce0fb18ee974d40e765d7bb315ce21e20e9c7d3d836a7f6"
+heatencriptionkey="d64d46883727b0410332a834418269f46ca116d4c64fdbb446a14263630fe63a"
 #########################################################################
 
 # Only if you are using MySQL as DB backend. If for any chance, you have multiple
@@ -682,7 +697,7 @@ extraheathosts=""
 # IN THE CONTROLLER
 troveinstall="no"
 # The controller IP of course.... ;)
-trovehost="172.19.6.1"
+trovehost="172.19.6.2"
 # As usual, change the password and e-mail.
 troveuser="trove"
 trovesvce="trove"
@@ -730,7 +745,7 @@ extratrovehosts=""
 # sahara host
 saharainstall="no"
 # The controller IP or the IP of the dedicated sahara host.
-saharahost="172.19.6.1"
+saharahost="172.19.6.2"
 # Again, change the password and e-mail
 saharauser="sahara"
 saharasvce="sahara"
@@ -758,7 +773,7 @@ extrasaharahosts=""
 # dedicated manila host
 manilainstall="no"
 # The controller IP or the IP of the dedicated manila host.
-manilahost="172.19.6.1"
+manilahost="172.19.6.2"
 # Again, change the password and e-mail
 manilauser="manila"
 manilasvcev1="manila"
@@ -793,7 +808,7 @@ extramanilahosts=""
 # As with the other modules (trove, manila, etc.) our default is "no". Change it to "yes" in
 # order to install designate:
 designateinstall="no"
-designatehost="172.19.6.1"
+designatehost="172.19.6.2"
 # Again, change the password and e-mail
 designateuser="designate"
 designatesvcev1="designatev1"
@@ -858,7 +873,7 @@ horizondbusage="yes"
 dashboard_timezone="America\/Mexico_City"
 ###############################################################################
 # Your horizon server IP - normally the controller IP.
-horizonhost="172.19.6.1"
+horizonhost="172.19.6.2"
 # Only if you are using MySQL as DB backend. If for any chance, you have multiple
 # horizon hosts, put here the IP address of the extra hosts, space separated.
 # Normally, this is not necessary unless your mysql service access policies are very

@@ -1,5 +1,0 @@
-Installer Version:
-
-1.0.8.ub1604lts "Lynx Pardinus"
-
-ONLY FOR OPENSTACK RELEASE 13 "MITAKA"
