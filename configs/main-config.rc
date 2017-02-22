@@ -49,7 +49,7 @@ dbpopulate="no"
 # no action is taken for database installation, creation or population.
 #
 # Here you define the database backend server IP address. You can use an IP or a FQDN:
-dbbackendhost="172.19.6.2"
+dbbackendhost="172.19.6.1"
 #
 # DB Max connections. This parameter needs to be adjusted according to your available
 # cores in your controller
@@ -68,7 +68,7 @@ dbmaxcons="1000"
 messagebrokerinstall="no"
 # The IP or FQDN of the message broker (always fill this, no matter if you are installing
 # a controller or a compute node).
-messagebrokerhost="172.19.6.2"
+messagebrokerhost="172.19.6.1"
 #
 # From MITAKA, we dropped QPID support. Our default is rabbitmq. Please DO NOT TRY to change
 # the following variable, or your installation WILL BREAK.
@@ -151,7 +151,7 @@ keystoneinstall="no"
 #
 # Either controller or compute, put the IP or FQDN for the keystone host,
 # normally, the controller server.
-keystonehost="172.19.6.2"
+keystonehost="172.19.6.1"
 # Only if you are using MySQL as DB backend. If for any chance, you have multiple
 # keystone hosts, put here the IP address of the extra hosts, space separated.
 # Normally, this is not necessary unless your mysql service access policies are very
