@@ -1,18 +1,19 @@
 #!/bin/bash
-#
-# Unattended/SemiAutomatted OpenStack Installer
 
 #
+# OpenStack Installer
 # OpenStack MITAKA for Ubuntu 16.04lts
-#
 #
 
 PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
-
 #
-# First, we source our config file
-#
+# Como primer punto se requiere el script de configuracion
+# Existen dos archivos 3 de configuracion, el primero es controller-config.rc
+# El segundo es el compute-config.rc y el tercero es el main-config.rc
+# En el tercer archivo se indica si se va a instalar un controlador o un nodo de computo.
 
+
+# Validar el archivo principal de configuracion
 if [ -f ./configs/main-config.rc ]
 then
 	source ./configs/main-config.rc
@@ -23,71 +24,65 @@ else
 	exit 0
 fi
 
-#
-# Some pre-cleanup first !. Just in order to avoid "Oppssess"
-#
+# Validar si existe el archivo de configuraciòn del controller
+if [ -f ./configs/controller-config.rc ] then
+	if [ -f ./configs/controller-config.rc ] then
+		source ./configs/main-config.rc
+		mkdir -p /etc/openstack-control-script-config
+	else
+		echo "Can't access my config file. Aborting !"
+		echo ""
+		exit 0
+	fi
+fi
 
+
+# Limpieza de archivos temporales.
 rm -rf /tmp/keystone-signing-*
 rm -rf /tmp/cd_gen_*
 
-#
-# Then we begin some verifications
-#
-
+# Ejecuon de validaciones
 export DEBIAN_FRONTEND=noninteractive
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install aptitude
 
 osreposinstalled=`aptitude search python-openstackclient|grep python-openstackclient|head -n1|wc -l`
-amiroot=` whoami|grep root|wc -l`
-amiubuntu1604=`cat /etc/lsb-release|grep DISTRIB_DESCRIPTION|grep -i ubuntu.\*16.\*LTS|head -n1|wc -l`
-internalbridgepresent=`ovs-vsctl show|grep -i -c bridge.\*$integration_bridge`
+userIsRoot=`whoami|grep root|wc -l`
+systemOperationVersion=`cat /etc/lsb-release|grep DISTRIB_DESCRIPTION|grep -i ubuntu.\*16.\*LTS|head -n1|wc -l`
+internalBridgePresent=`ovs-vsctl show|grep -i -c bridge.\*$integration_bridge`
 kernel64installed=`uname -p|grep x86_64|head -n1|wc -l`
 
 echo ""
-echo "Starting Verifications"
+echo "Inician las validaciones"
 echo ""
 
-if [ $amiubuntu1604 == "1" ]
+if [ $systemOperationVersion == "1" ]
 then
 	echo ""
-	echo "UBUNTU 16.04 LTS O/S Verified OK"
+echo "Version del sistema operativo correcta: [UBUNTU 16.04 LTS O/S]"
 	echo ""
 else
-	echo ""
-	echo "We could not verify an UBUNTU 16.04 LTS O/S here. Aborting !"
-	echo ""
+	echo "La version del sistema operativo no es la correcta. [El proceso es Abortado]"
 	exit 0
 fi
 
-if [ $amiroot == "1" ]
+if [ $userIsRoot == "1" ]
 then
-	echo ""
-	echo "We are root. That's OK"
-	echo ""
+	echo "El usuario de ejecucion es el correcto: [root]"
 else
-	echo ""
-	echo "Apparently, we are not running as root. Aborting !"
-	echo ""
+	echo "El instalador no se esta ejecutando con root: [Proceso de instalación es Abortado]"
 	exit 0
 fi
 
 if [ $kernel64installed == "1" ]
 then
-	echo ""
-	echo "Kernel x86_64 (amd64) detected. Thats OK"
-	echo ""
+	echo "El Kernel instalado es x86_64 (amd64): [La versión de Kernel es correcta]"
 else
-	echo ""
-	echo "Apparently, we are not running inside a x86_64 Kernel. Thats NOT Ok. Aborting !"
-	echo ""
+	echo "El sistema no cuenta con Kernel x86_64: [Proceso de instalación es Abortado]"
 	exit 0
 fi
 
-
-echo ""
-echo "Let's continue"
-echo ""
+echo " El proceso de validación ha terminado: [Se continua con la instalación]"
 
 searchtestceilometer=`aptitude search ceilometer-api|grep -ci "ceilometer-api"`
 
@@ -114,7 +109,7 @@ else
 	exit 0
 fi
 
-if [ $internalbridgepresent == "1" ]
+if [ $internalBridgePresent == "1" ]
 then
 	echo ""
 	echo "Integration Bridge Present"
@@ -134,6 +129,7 @@ echo ""
 #
 
 apt-get -y update
+
 apt-get -y install crudini python-iniparse debconf-utils
 
 echo "libguestfs0 libguestfs/update-appliance boolean false" > /tmp/libguest-seed.txt

@@ -47,7 +47,7 @@ PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 # The behaviour of this script is completelly controlled in the ./config/main-config.rc file. By properlly
 # configuring this file, you can deploy your cloud the way you want.
 #
-
++
 case $1 in
 "install")
 
