@@ -24,7 +24,7 @@ else
 	exit 0
 fi
 
-# Validar si existe el archivo de configuraciòn del controller
+# Validar si existe el archivo de configuración del controller
 if [ -f ./configs/controller-config.rc ] then
 	if [ -f ./configs/controller-config.rc ] then
 		source ./configs/main-config.rc
@@ -41,83 +41,67 @@ fi
 rm -rf /tmp/keystone-signing-*
 rm -rf /tmp/cd_gen_*
 
-# Ejecuon de validaciones
+# Ejeción de validaciones
 export DEBIAN_FRONTEND=noninteractive
 
 DEBIAN_FRONTEND=noninteractive apt-get -y install aptitude
 
-osreposinstalled=`aptitude search python-openstackclient|grep python-openstackclient|head -n1|wc -l`
+osRepositoryInstalled=`aptitude search python-openstackclient|grep python-openstackclient|head -n1|wc -l`
 userIsRoot=`whoami|grep root|wc -l`
 systemOperationVersion=`cat /etc/lsb-release|grep DISTRIB_DESCRIPTION|grep -i ubuntu.\*16.\*LTS|head -n1|wc -l`
-internalBridgePresent=`ovs-vsctl show|grep -i -c bridge.\*$integration_bridge`
+internalNetworkBridgePresent=`ovs-vsctl show|grep -i -c bridge.\*$integration_bridge`
 kernel64installed=`uname -p|grep x86_64|head -n1|wc -l`
 
-echo ""
-echo "Inician las validaciones"
-echo ""
 
-if [ $systemOperationVersion == "1" ]
-then
-	echo ""
-echo "Version del sistema operativo correcta: [UBUNTU 16.04 LTS O/S]"
-	echo ""
+echo "************Inician las validaciones*********************"
+
+# Validar la verón del sistema operativo
+if [ $systemOperationVersion == "1" ] then
+	echo "Version del sistema operativo correcta: [UBUNTU 16.04 LTS O/S]"
 else
 	echo "La version del sistema operativo no es la correcta. [El proceso es Abortado]"
 	exit 0
 fi
 
-if [ $userIsRoot == "1" ]
-then
+# Validar si el instalador se ejecuta con el usuario root.
+if [ $userIsRoot == "1" ] then
 	echo "El usuario de ejecucion es el correcto: [root]"
 else
 	echo "El instalador no se esta ejecutando con root: [Proceso de instalación es Abortado]"
 	exit 0
 fi
 
-if [ $kernel64installed == "1" ]
-then
+# Validar si el kernel es x86_64 (amd64)
+if [ $kernel64installed == "1" ] then
 	echo "El Kernel instalado es x86_64 (amd64): [La versión de Kernel es correcta]"
 else
 	echo "El sistema no cuenta con Kernel x86_64: [Proceso de instalación es Abortado]"
 	exit 0
 fi
 
-echo " El proceso de validación ha terminado: [Se continua con la instalación]"
+echo "*********El proceso de validación ha terminado: [Se continua con la instalación]***********"
 
-searchtestceilometer=`aptitude search ceilometer-api|grep -ci "ceilometer-api"`
-
-if [ $osreposinstalled == "1" ]
+if [ $osRepositoryInstalled == "1" ]
 then
-	echo ""
-	echo "OpenStack MITAKA Available for install"
+	echo "OK - El repositorio de OpenStack MITAKA esta disponible para su instalación"
 else
-	echo ""
-	echo "OpenStack MITAKA Unavailable. Aborting !"
-	echo ""
+	echo "ERROR - OpenStack MITAKA Unavailable. Aborting !"
 	exit 0
 fi
 
-if [ $searchtestceilometer == "1" ]
-then
-	echo ""
-	echo "Second OpenStack REPO verification OK"
-	echo ""
+searchCeilometer=`aptitude search ceilometer-api|grep -ci "ceilometer-api"`
+if [ $searchCeilometer == "1" ] then
+echo "OK - Repositorio de Ceilometer verificado: [Repositorio de Ceilometer localizado]"
 else
-	echo ""
-	echo "Second OpenStack REPO verification FAILED. Aborting !"
-	echo ""
+	echo "ERROR - El repositorio de Ceilometer no esta instalado: [Error al buscar el repositorio de ceilometer]"
 	exit 0
 fi
 
-if [ $internalBridgePresent == "1" ]
-then
-	echo ""
+
+if [ $internalNetworkBridgePresent == "1" ] then
 	echo "Integration Bridge Present"
-	echo ""
 else
-	echo ""
 	echo "Integration Bridge NOT Present. Aborting !"
-	echo ""
 	exit 0
 fi
 
@@ -150,9 +134,7 @@ rm -r /tmp/libguest-seed.txt
 
 if [ -f /etc/openstack-control-script-config/libvirt-installed ]
 then
-	echo ""
 	echo "Pre-requirements already installed"
-	echo ""
 else
 	echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" > /tmp/iptables-seed.txt
 	echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" >> /tmp/iptables-seed.txt
@@ -202,17 +184,19 @@ else
 
 	iptables -A INPUT -p tcp -m multiport --dports 16509 -j ACCEPT
 	/etc/init.d/netfilter-persistent save
-
+	
+	#implementación de Linux Security Module
+	#https://help.ubuntu.com/lts/serverguide/apparmor.html
 	apt-get -y install apparmor-utils
 	# aa-disable /etc/apparmor.d/usr.sbin.libvirtd
 	# /etc/init.d/libvirt-bin restart
 	chmod 644 /boot/vmlinuz-*
 fi
 
-#
-# KSM Tuned:
-#
 
+# KSM Tuned:
+# https://launchpad.net/ubuntu/xenial/+package/ksmtuned
+# enables and tunes Kernel Samepage Merging
 aptitude -y install ksmtuned
 systemctl enable ksmtuned
 systemctl restart ksmtuned
@@ -220,15 +204,12 @@ systemctl restart ksmtuned
 
 testlibvirt=`dpkg -l libvirt-bin 2>/dev/null|tail -n 1|grep -ci ^ii`
 
-if [ $testlibvirt == "1" ]
-then
-	echo ""
-	echo "Libvirt correctly installed"
+if [ $testlibvirt == "1" ]then
+	echo "OK - Libvirt se instalo correctamente"
 	date > /etc/openstack-control-script-config/libvirt-installed
-	echo ""
 else
 	echo ""
-	echo "Libvirt installation FAILED. Aborting !"
+	echo "ERROR - Fallo la instalación de Libvirt [Instalacion abortada]"
 	exit 0
 fi
 
