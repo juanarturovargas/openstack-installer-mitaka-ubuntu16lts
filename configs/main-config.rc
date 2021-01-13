@@ -182,7 +182,7 @@ keystone_fulladmin_rc_file="/root/keystonerc_fulladmin"
 # 
 # Change the remaining following options to fit your cloud infraestructure needs 
 #
-keystoneadminuseremail="jvargas@kionetworks.com"
+keystoneadminuseremail="demo@demo.com"
 keystoneadminpass="Welcome$1"
 #
 # Token Provider Flavor. Three options: fernet, pki or uuid. From Mitaka, fernet is the
